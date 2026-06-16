@@ -662,20 +662,33 @@ def run():
 
     export_saved_ads_to_json()
 
-    # Salji Telegram ...
+    # Build status footer - always included so we know the bot ran
+    stats = get_db_stats()
+    now_str = time.strftime('%d.%m.%Y. %H:%M')
+    status = (
+        f"\n━━━━━━━━━━━━━━━━━━━━\n"
+        f"✅ <b>Scan završen</b>\n"
+        f"🕒 {now_str}\n"
+        f"🆕 Novi oglasi: {total_new}\n"
+        f"💰 Promjene cijena: {len(saved_messages)}\n"
+        f"📦 Ukupno u bazi: {stats['total']}"
+    )
+    if captcha_skipped:
+        status += f"\n⚠️ CAPTCHA preskočio {captcha_skipped} spremljenih oglasa"
+    telegram_body += status
+
+    # Salji Telegram - send every run so we know the bot is still alive
     if not first_run and telegram_configured():
-        if total_new > 0 or saved_messages or captcha_skipped:
-            header = (
-                f"🆕 <b>NJUSKALO - NOVI OGLASI</b>\n"
-                f"📅 {time.strftime('%d.%m.%Y. %H:%M')}\n"
-                f"━━━━━━━━━━━━━━━━━━━━"
-            )
-            send_telegram(header + telegram_body)
+        header = (
+            f"📊 <b>NJUSKALO - SCAN REPORT</b>\n"
+            f"📅 {now_str}\n"
+            f"━━━━━━━━━━━━━━━━━━━━"
+        )
+        send_telegram(header + telegram_body)
     elif first_run and total_new > 0:
         print(f"\n[i] Inicijalno spremljeno {total_new} oglasa u bazu (bez obavijesti)")
 
     # Ispis statistike
-    stats = get_db_stats()
     print(f"\n{'=' * 60}")
     print(f"  GOTOVO! Novih: {total_new} | Baza ukupno: {stats['total']}")
     for cat, cnt in sorted(stats.get("by_category", {}).items()):
