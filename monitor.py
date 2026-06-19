@@ -671,6 +671,7 @@ def run():
         print(f"\n[i] Inicijalno spremljeno {total_new} oglasa u bazu (bez obavijesti)")
 
     # Ispis statistike
+    stats = get_db_stats()
     print(f"\n{'=' * 60}")
     print(f"  GOTOVO! Novih: {total_new} | Baza ukupno: {stats['total']}")
     for cat, cnt in sorted(stats.get("by_category", {}).items()):
