@@ -318,8 +318,9 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or '(nepoznat)'}\n🔗 {url}")
             continue
 
-        # Dohvati trenutnu cijenu
+        # Dohvati trenutnu cijenu (robustnije - DOM + fallback na sadržaj i JSON)
         current_price_text = ""
+        # 1. Pokušaj DOM selectore
         for sel in [
             ".price--hrk",
             "strong.price",
@@ -338,7 +339,48 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             except Exception:
                 pass
 
+        # 2. Fallback: regex na cijelom sadržaju stranice
         if not current_price_text:
+            try:
+                body_text = page.content()
+                matches = re.findall(r'(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*€', body_text)
+                if matches:
+                    current_price_text = matches[0] + " €"
+            except Exception:
+                pass
+
+        # 3. Fallback: iz embedded JSON (često u __NEXT_DATA__ ili LD+JSON)
+        if not current_price_text:
+            try:
+                price_json = page.evaluate('''() => {
+                    // Pokušaj iz script JSON
+                    const scripts = document.querySelectorAll('script[type="application/ld+json"], script#__NEXT_DATA__');
+                    for (let s of scripts) {
+                        try {
+                            let txt = s.textContent || '';
+                            if (txt.includes('price') || txt.includes('€')) {
+                                const data = JSON.parse(txt);
+                                if (data) {
+                                    if (data.offers && data.offers.price) return data.offers.price + ' €';
+                                    if (data.price) return data.price;
+                                    // traži u props ili graph
+                                    const str = JSON.stringify(data);
+                                    const m = str.match(/"price"\\s*:\\s*"([0-9. ]+ ?€?)"/i);
+                                    if (m) return m[1];
+                                }
+                            }
+                        } catch(e) {}
+                    }
+                    return "";
+                }''')
+                if price_json and "€" in str(price_json):
+                    current_price_text = str(price_json)
+            except Exception:
+                pass
+
+        if not current_price_text:
+            # Ako i dalje nema, preskoči ali barem logiraj za debug (neće biti u Telegramu)
+            print(f"    [!] Nema cijene pronađene za saved ad {ad_id}")
             continue
 
         checked += 1
