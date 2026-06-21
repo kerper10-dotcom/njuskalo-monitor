@@ -300,7 +300,7 @@ def check_saved_ads(page) -> tuple[list[str], int]:
 
         # Detektiraj uklonjen/neaktivan oglas po sadrzaju stranice
         try:
-            body_snippet = page.locator("body").inner_text()[:500].lower()
+            body_snippet = page.locator("body").inner_text()[:2000].lower()
         except Exception:
             body_snippet = ""
 
@@ -308,7 +308,9 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             "ne postoji", "nije pronađen", "nije pronaden", "istekao",
             "uklonjen", "nije dostupan", "oglas je istekao", "traženi oglas",
             "stranica nije pronađena", "stranica ne postoji", "neaktivan",
-            "oglas je neaktivan", "pronjuškaj slične oglase"
+            "oglas je neaktivan", "pronjuškaj slične oglase",
+            "prodano", "prodaj", "oglas je prodan", "prodaja završena",
+            "završeno", "istekla prodaja", "nema više na raspolaganju"
         ]
         if any(kw in body_snippet for kw in removed_keywords):
             conn = sqlite3.connect(DB_FILE)
@@ -391,8 +393,7 @@ def check_saved_ads(page) -> tuple[list[str], int]:
 
         # Azuriraj saved_price ako je NULL
         if saved_price is None:
-            nums = re.findall(r"\d+", current_price_text.replace(".", ""))
-            saved_price = float("".join(nums)) if nums else None
+            saved_price = _extract_price_num(current_price_text)
 
         current_num = _extract_price_num(current_price_text)
         saved_num = float(saved_price) if saved_price else None
@@ -429,16 +430,25 @@ def check_saved_ads(page) -> tuple[list[str], int]:
 
 
 def _extract_price_num(price_text: str) -> float | None:
-    """Izvlači brojčanu vrijednost iz tekstualne cijene (npr. '17.800 €' -> 17800)."""
+    """Izvlači brojčanu vrijednost iz tekstualne cijene.
+    Podržava EU format: '17.600 €' (17600), '699,00 €' (699), '1.234,56 €' (1234.56).
+    """
     if not price_text:
         return None
-    nums = re.findall(r"\d+", price_text.replace(".", ""))
-    if nums:
-        try:
-            return float("".join(nums))
-        except ValueError:
-            return None
-    return None
+    # Ukloni € i whitespace
+    text = re.sub(r'[€\s]', '', price_text.strip())
+    if not text:
+        return None
+    # Ako ima zarez, to je decimalni separator (EU format): prvo ukloni točke (tisuće), zamijeni zarez točkom
+    if ',' in text:
+        text = text.replace('.', '').replace(',', '.')
+    else:
+        # Samo točke kao tisuće separator
+        text = text.replace('.', '')
+    try:
+        return float(text)
+    except ValueError:
+        return None
 
 
 # =============================================================================
