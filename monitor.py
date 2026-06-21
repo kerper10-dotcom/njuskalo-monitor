@@ -298,28 +298,6 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or current_url}\n🔗 {url}")
             continue
 
-        # Detektiraj uklonjen/neaktivan oglas po sadrzaju stranice
-        try:
-            body_snippet = page.locator("body").inner_text()[:2000].lower()
-        except Exception:
-            body_snippet = ""
-
-        removed_keywords = [
-            "ne postoji", "nije pronađen", "nije pronaden", "istekao",
-            "uklonjen", "nije dostupan", "oglas je istekao", "traženi oglas",
-            "stranica nije pronađena", "stranica ne postoji", "neaktivan",
-            "oglas je neaktivan", "pronjuškaj slične oglase",
-            "prodano", "prodaj", "oglas je prodan", "prodaja završena",
-            "završeno", "istekla prodaja", "nema više na raspolaganju"
-        ]
-        if any(kw in body_snippet for kw in removed_keywords):
-            conn = sqlite3.connect(DB_FILE)
-            conn.execute("DELETE FROM saved_ads WHERE id = ?", (ad_id,))
-            conn.commit()
-            conn.close()
-            messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or '(nepoznat)'}\n🔗 {url}")
-            continue
-
         # Dohvati trenutnu cijenu (robustnije - DOM + fallback na sadržaj i JSON)
         current_price_text = ""
         # 1. Pokušaj DOM selectore
@@ -355,7 +333,6 @@ def check_saved_ads(page) -> tuple[list[str], int]:
         if not current_price_text:
             try:
                 price_json = page.evaluate('''() => {
-                    // Pokušaj iz script JSON
                     const scripts = document.querySelectorAll('script[type="application/ld+json"], script#__NEXT_DATA__');
                     for (let s of scripts) {
                         try {
@@ -365,7 +342,6 @@ def check_saved_ads(page) -> tuple[list[str], int]:
                                 if (data) {
                                     if (data.offers && data.offers.price) return data.offers.price + ' €';
                                     if (data.price) return data.price;
-                                    // traži u props ili graph
                                     const str = JSON.stringify(data);
                                     const m = str.match(/"price"\\s*:\\s*"([0-9. ]+ ?€?)"/i);
                                     if (m) return m[1];
@@ -380,8 +356,31 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             except Exception:
                 pass
 
+        # Detektiraj uklonjen/neaktivan oglas po sadrzaju stranice
+        # ONLY if we couldn't get a price (active ads should have price)
+        try:
+            body_snippet = page.locator("body").inner_text()[:2000].lower()
+        except Exception:
+            body_snippet = ""
+
+        removed_keywords = [
+            "ne postoji", "nije pronađen", "nije pronaden", "istekao oglas",
+            "uklonjen", "nije dostupan", "oglas je istekao", "traženi oglas",
+            "stranica nije pronađena", "stranica ne postoji", "neaktivan oglas",
+            "oglas je neaktivan", 
+            "prodano", "oglas je prodan", "prodaja završena",
+            "završeno", "istekla prodaja", "nema više na raspolaganju"
+        ]
+        if not current_price_text and any(kw in body_snippet for kw in removed_keywords):
+            conn = sqlite3.connect(DB_FILE)
+            conn.execute("DELETE FROM saved_ads WHERE id = ?", (ad_id,))
+            conn.commit()
+            conn.close()
+            messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or '(nepoznat)'}\n🔗 {url}")
+            continue
+
         if not current_price_text:
-            # Ako i dalje nema, preskoči ali barem logiraj za debug (neće biti u Telegramu)
+            # Ako i dalje nema, preskoči ali barem logiraj za debug
             print(f"    [!] Nema cijene pronađene za saved ad {ad_id}")
             continue
 
