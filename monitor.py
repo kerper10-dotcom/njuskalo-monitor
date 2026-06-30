@@ -285,8 +285,8 @@ def check_saved_ads(page) -> tuple[list[str], int]:
 
     for ad_id, title, url, saved_price, last_price in saved:
         try:
-            page.goto(url, wait_until="domcontentloaded", timeout=15000)
-            page.wait_for_timeout(300)
+            page.goto(url, wait_until="domcontentloaded", timeout=20000)
+            page.wait_for_timeout(1500)
         except Exception:
             continue
 
@@ -294,6 +294,14 @@ def check_saved_ads(page) -> tuple[list[str], int]:
 
         # ShieldSquare CAPTCHA
         if "shieldsquare" in page_title.lower() or "captcha" in page_title.lower():
+            skipped_captcha += 1
+            continue
+
+        try:
+            body_probe = page.locator("body").inner_text()[:500].lower()
+        except Exception:
+            body_probe = ""
+        if "shieldsquare" in body_probe or "tamnu stranu" in body_probe:
             skipped_captcha += 1
             continue
 
@@ -383,32 +391,9 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             except Exception:
                 pass
 
-        # Detektiraj uklonjen/neaktivan oglas po sadrzaju stranice
-        # ONLY if we couldn't get a price (active ads should have price)
-        try:
-            body_snippet = page.locator("body").inner_text()[:2000].lower()
-        except Exception:
-            body_snippet = ""
-
-        removed_keywords = [
-            "ne postoji", "nije pronađen", "nije pronaden", "istekao oglas",
-            "uklonjen", "nije dostupan", "oglas je istekao", "traženi oglas",
-            "stranica nije pronađena", "stranica ne postoji", "neaktivan oglas",
-            "oglas je neaktivan", 
-            "prodano", "oglas je prodan", "prodaja završena",
-            "završeno", "istekla prodaja", "nema više na raspolaganju"
-        ]
-        if not current_price_text and any(kw in body_snippet for kw in removed_keywords):
-            conn = sqlite3.connect(DB_FILE)
-            conn.execute("DELETE FROM saved_ads WHERE id = ?", (ad_id,))
-            conn.commit()
-            conn.close()
-            messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or '(nepoznat)'}\n🔗 {url}")
-            continue
-
         if not current_price_text:
-            # Ako i dalje nema, preskoči ali barem logiraj za debug
-            print(f"    [!] Nema cijene pronađene za saved ad {ad_id}")
+            # NEMA brisanja kad cijena nije pronadjena — opisi oglasa sadrze "prodano" itd.
+            print(f"    [!] Nema cijene za saved ad {ad_id}, preskacem (nije prodano)")
             continue
 
         checked += 1
