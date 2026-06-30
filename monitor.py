@@ -254,18 +254,17 @@ def export_saved_ads_to_json():
         json.dump(ads, f, ensure_ascii=False, indent=2)
 
 
-def _is_sold_or_removed(page_title: str, body_snippet: str) -> bool:
-    """Prodani oglas na Njuskalu cesto i dalje prikazuje cijenu — ne oslanjaj se samo na nju."""
-    title_l = (page_title or "").lower()
-    # Samo vrh stranice: footer/nav sadrzi fraze poput "pronjuškaj slične oglase" na SVIM oglasima
-    body_top = (body_snippet or "")[:1200].lower()
+def _is_sold_or_removed(body_snippet: str, page_html: str = "") -> bool:
+    """Prodani oglas na Njuskalu cesto i dalje prikazuje cijenu.
 
-    # Njuskalo u naslov dodaje (prodaja) samo kad je stvarno prodano
-    if "(prodaja)" in title_l or "(prodano)" in title_l:
+    PAZNJA: naslov SVIH nekretnina na prodaju ima sufiks '(prodaja)' — to NIJE prodano!
+    Jedini pouzdan signal je banner 'Ovaj oglas je prodan.'
+    """
+    body_top = (body_snippet or "")[:2500].lower()
+    if "ovaj oglas je prodan" in body_top:
         return True
-
-    # Glavni banner prodanog oglasa (npr. Sv. Klara 50764828)
-    return "ovaj oglas je prodan" in body_top
+    html_chunk = (page_html or "")[:20000].lower()
+    return "ovaj oglas je prodan" in html_chunk
 
 
 def check_saved_ads(page) -> tuple[list[str], int]:
@@ -311,21 +310,22 @@ def check_saved_ads(page) -> tuple[list[str], int]:
             skipped_captcha += 1
             continue
 
-        # Ako smo redirektani na njuskalo search/home umjesto detalja oglasa
+        # Redirect na pretragu/home — cesto bot-blok, NE brisati
         if "/pretraga" in current_url or current_url.rstrip("/") == "https://www.njuskalo.hr":
-            conn = sqlite3.connect(DB_FILE)
-            conn.execute("DELETE FROM saved_ads WHERE id = ?", (ad_id,))
-            conn.commit()
-            conn.close()
-            messages.append(f"🚫 <b>PRODANO / UKLONJENO</b>\n{title or current_url}\n🔗 {url}")
+            print(f"    [!] Redirect za saved ad {ad_id}, preskacem")
+            skipped_captcha += 1
             continue
 
         try:
-            body_snippet = page.locator("body").inner_text()[:4000].lower()
+            body_snippet = page.locator("body").inner_text()
         except Exception:
             body_snippet = ""
+        try:
+            page_html = page.content()
+        except Exception:
+            page_html = ""
 
-        if _is_sold_or_removed(page_title, body_snippet):
+        if _is_sold_or_removed(body_snippet, page_html):
             conn = sqlite3.connect(DB_FILE)
             conn.execute("DELETE FROM saved_ads WHERE id = ?", (ad_id,))
             conn.commit()
