@@ -70,6 +70,20 @@
     "saved_date": "20.06.2026"
   },
   {
+    "id": 47680228,
+    "title": "Prodaja, Stan, Zaprešić-Centar, Pavla Lončara 2, 1s, 42m2",
+    "url": "https://www.njuskalo.hr/nekretnine/prodaja-stan-zapresic-centar-pavla-loncara-2-1s-42m2-oglas-47680228",
+    "saved_price": 140000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 47728692,
+    "title": "Bulevar prodaja 74 m2, 2 Novouređena stana kod autobusnog kolodvora",
+    "url": "https://www.njuskalo.hr/nekretnine/stan-kustosija-penthouse-4sobni-102.00-m2-prodaja-oglas-47728692",
+    "saved_price": 215000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
     "id": 48204244,
     "title": "Zagreb - VRBANI - stan 32m2 + garažno mjesto 17m2!",
     "url": "https://www.njuskalo.hr/nekretnine/zagreb-vrbani-stan-32m2-garazno-mjesto-17m2-oglas-48204244",
@@ -224,11 +238,25 @@
     "saved_date": "20.06.2026"
   },
   {
+    "id": 49721548,
+    "title": "Murvica, građevinsko zemljište, 550 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/murvica-gradevinsko-zemljiste-550-m2-oglas-49721548",
+    "saved_price": 68000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
     "id": 49783702,
     "title": "MURVICA GRAĐEVINSKO ZEMLJIŠTE S GLAVNIM PROJEKTOM",
     "url": "https://www.njuskalo.hr/nekretnine/murvica-gradevinsko-zemljiste-glavnim-projektom-oglas-49783702",
     "saved_price": 88000.0,
     "saved_date": "20.06.2026"
+  },
+  {
+    "id": 49784556,
+    "title": "Predivan mali stan",
+    "url": "https://www.njuskalo.hr/nekretnine/predivan-mali-stan-oglas-49784556",
+    "saved_price": 181900.0,
+    "saved_date": "01.07.2026"
   },
   {
     "id": 49787271,
@@ -287,6 +315,13 @@
     "saved_date": "20.06.2026"
   },
   {
+    "id": 50048952,
+    "title": "MacBook Pro M1 Pro 16” 16GB 512GB",
+    "url": "https://www.njuskalo.hr/apple-macbook/macbook-pro-m1-pro-16-16gb-512gb-oglas-50048952",
+    "saved_price": 900.0,
+    "saved_date": "01.07.2026"
+  },
+  {
     "id": 50145534,
     "title": "Mazda CX-30 X180 GT PLUS automatik",
     "url": "https://www.njuskalo.hr/auti/mazda-cx-30-x180-gt-plus-automatik-oglas-50145534",
@@ -299,6 +334,13 @@
     "url": "https://www.njuskalo.hr/auti/mazda-cx-30-g150-automatik-oglas-50180306",
     "saved_price": 21500.0,
     "saved_date": "20.06.2026"
+  },
+  {
+    "id": 50196064,
+    "title": "PROJEKT - HARMONY PLAZA - Dugo Selo, Olea S3",
+    "url": "https://www.njuskalo.hr/nekretnine/projekt-harmony-plaza-dugo-selo-olea-s3-oglas-50196064",
+    "saved_price": 111012.0,
+    "saved_date": "01.07.2026"
   },
   {
     "id": 50200162,
@@ -386,7 +428,7 @@
   },
   {
     "id": 50517166,
-    "title": "Murvica(Zadar) - 1116m2-građevinsko zemljište",
+    "title": "Murvica ( Zadar)- 512m2 građevinsko zemljište",
     "url": "https://www.njuskalo.hr/nekretnine/murvica-1.116-m2-gradevinsko-zemljiste-oglas-50517166",
     "saved_price": 78000.0,
     "saved_date": "20.06.2026"
@@ -432,6 +474,13 @@
     "url": "https://www.njuskalo.hr/nekretnine/zagreb-iver-naselje-jednosobni-stan-garazom-oglas-50624792",
     "saved_price": 149000.0,
     "saved_date": "20.06.2026"
+  },
+  {
+    "id": 50625525,
+    "title": "VRBANI, DIZAJNERSKI UREĐEN STAN S PARKINGOM i SP, 38 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/vrbani-dizajnerski-ureden-stan-parkingom-sp-38-m2-oglas-50625525",
+    "saved_price": 265000.0,
+    "saved_date": "01.07.2026"
   },
   {
     "id": 50663275,
@@ -504,6 +553,13 @@
     "saved_date": "20.06.2026"
   },
   {
+    "id": 50776344,
+    "title": "MURVICA ( Zadar) - 659m2 građevinsko zemljište",
+    "url": "https://www.njuskalo.hr/nekretnine/murvica-zadar-659m2-gradevinsko-zemljiste-oglas-50776344",
+    "saved_price": 99000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
     "id": 50795313,
     "title": "Stan: Zadar, 42.64 m2, sa parkirnim mjestom u garaži",
     "url": "https://www.njuskalo.hr/nekretnine/stan-zadar-42.50-m2-parkirnim-mjestom-garazi-oglas-50795313",
@@ -532,6 +588,13 @@
     "saved_date": "20.06.2026"
   },
   {
+    "id": 50823016,
+    "title": "Toyota Yaris 1.5 Hybrid Automatik Sol, kamera, autom. klima, jamstvo",
+    "url": "https://www.njuskalo.hr/auti/toyota-yaris-1.5-hybrid-automatik-sol-kamera-autom-klima-jamstvo-oglas-50823016",
+    "saved_price": 17490.0,
+    "saved_date": "01.07.2026"
+  },
+  {
     "id": 50824709,
     "title": "Građevinsko zemljište pravilnog oblika, Murvica donja nedaleko Zadra",
     "url": "https://www.njuskalo.hr/nekretnine/gradevinsko-zemljiste-pravilnog-oblika-murvica-donja-nedaleko-zadra-oglas-50824709",
@@ -540,7 +603,7 @@
   },
   {
     "id": 50831254,
-    "title": "Novoadaptiran stan, Zagreb: Volovčica - 33m2 (prodaja)",
+    "title": "Novoadaptiran stan, Zagreb: Volovčica - 33m2",
     "url": "https://www.njuskalo.hr/nekretnine/novoadaptiran-stan-zagreb-volovcica-33m2-prodaja-oglas-50831254",
     "saved_price": 157990.0,
     "saved_date": "20.06.2026"
@@ -554,9 +617,79 @@
   },
   {
     "id": 50833441,
-    "title": "Prilika! Bulevar,64 m2 stan, mogucnost dodatne sobe",
+    "title": "BULEVAR, potpuno namješten i renoviran stan, 64m2",
     "url": "https://www.njuskalo.hr/nekretnine/bulevar-64-m2-stan-potpuno-namjesten-oglas-50833441",
     "saved_price": 243200.0,
     "saved_date": "20.06.2026"
+  },
+  {
+    "id": 50863165,
+    "title": "Zaprešić, dvosoban stan, 45,72 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/zapresic-dvosoban-stan-45.72-m2-oglas-50863165",
+    "saved_price": 165000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50865893,
+    "title": "Mazda CX-5 Homura Plus G165",
+    "url": "https://www.njuskalo.hr/auti/mazda-cx-5-g165-automatik-oglas-50865893",
+    "saved_price": 20000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50866312,
+    "title": "Stan: Zagreb (Stenjevec), garsonijera površine 19.90 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-stenjevec-garsonijera-povrsine-19.90-m2-oglas-50866312",
+    "saved_price": 120000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50872416,
+    "title": "Stan: Zagreb (Odra), 36.00 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-odra-36.00-m2-oglas-50872416",
+    "saved_price": 153000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50872834,
+    "title": "Toyota Yaris Cross 1.5 hybrid automatik",
+    "url": "https://www.njuskalo.hr/auti/toyota-yaris-cross-1.5-hybrid-automatik-oglas-50872834",
+    "saved_price": 20000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50884024,
+    "title": "Dugave – potpuno namješten 1-sobni stan 38,04m², 5. kat, lift, klima,",
+    "url": "https://www.njuskalo.hr/nekretnine/dugave-potpuno-namjesten-1-sobni-stan-38.04m-5-kat-lift-klima-oglas-50884024",
+    "saved_price": 165000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50893682,
+    "title": "Stan: Zagreb (Botinec), 46.00 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-botinec-46.00-m2-oglas-50893682",
+    "saved_price": 135000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50901582,
+    "title": "Stan: Zagreb (Prečko), 25.00 m2",
+    "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-precko-25.00-m2-oglas-50901582",
+    "saved_price": 135000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50902088,
+    "title": "Zadar (Plovanija) – Dvosoban stan 72 m2 s balkonom, odmah useljiv!!!",
+    "url": "https://www.njuskalo.hr/nekretnine/zadar-plovanija-dvosoban-stan-72-m2-balkonom-odmah-useljiv-oglas-50902088",
+    "saved_price": 260000.0,
+    "saved_date": "01.07.2026"
+  },
+  {
+    "id": 50902438,
+    "title": "Apple MacBook Pro 2021 | 16″ | M1 PRO",
+    "url": "https://www.njuskalo.hr/lenovo-prijenosnici/apple-macbook-pro-2021-16-m1-pro-oglas-50902438",
+    "saved_price": 810.0,
+    "saved_date": "01.07.2026"
   }
 ]
